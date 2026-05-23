@@ -1,1 +1,377 @@
-{"program":[],"lastUpdated":"2026-05-23T16:35:25.950Z"}
+{
+  "program": [
+    {
+      "phase": 1,
+      "phaseName": "Fase 1: Basisconditie & Snelheidsprikkels",
+      "phaseDesc": "In deze eerste fase wennen je spieren en gewrichten aan de kortere, snellere tempoblokken.",
+      "weeks": [
+        {
+          "weekNum": 1,
+          "days": [
+            {
+              "dayNum": 1,
+              "type": "Duurloop",
+              "distance": 4,
+              "desc": "4 km rustige duurloop op praattempo.",
+              "completed": false,
+              "log": null
+            },
+            {
+              "dayNum": 2,
+              "type": "Interval",
+              "distance": 3.5,
+              "desc": "10 min. warmdraaien + 5x (2 min. snel op 7:30 tempo / 2 min. wandelen) + 5 min. uitwandelen.",
+              "completed": false,
+              "log": null
+            },
+            {
+              "dayNum": 3,
+              "type": "Duurloop",
+              "distance": 5,
+              "desc": "5 km rustige duurloop (je huidige basis).",
+              "completed": false,
+              "log": null
+            }
+          ]
+        },
+        {
+          "weekNum": 2,
+          "days": [
+            {
+              "dayNum": 1,
+              "type": "Duurloop",
+              "distance": 4.5,
+              "desc": "4,5 km rustige duurloop.",
+              "completed": false,
+              "log": null
+            },
+            {
+              "dayNum": 2,
+              "type": "Interval",
+              "distance": 4,
+              "desc": "10 min. warmdraaien + 6x (2 min. snel op 7:30 tempo / 2 min. wandelen) + 5 min. uitwandelen.",
+              "completed": false,
+              "log": null
+            },
+            {
+              "dayNum": 3,
+              "type": "Duurloop",
+              "distance": 5.5,
+              "desc": "5,5 km rustige duurloop.",
+              "completed": false,
+              "log": null
+            }
+          ]
+        },
+        {
+          "weekNum": 3,
+          "days": [
+            {
+              "dayNum": 1,
+              "type": "Duurloop",
+              "distance": 4.5,
+              "desc": "4,5 km rustige duurloop.",
+              "completed": false,
+              "log": null
+            },
+            {
+              "dayNum": 2,
+              "type": "Tempo",
+              "distance": 4.5,
+              "desc": "10 min. warmdraaien + 3x (1 km op 7:30 tempo met telkens 3 min. wandelen tussendoor) + 5 min. uitwandelen.",
+              "completed": false,
+              "log": null
+            },
+            {
+              "dayNum": 3,
+              "type": "Duurloop",
+              "distance": 6,
+              "desc": "6 km rustige duurloop.",
+              "completed": false,
+              "log": null
+            }
+          ]
+        },
+        {
+          "weekNum": 4,
+          "isRecovery": true,
+          "days": [
+            {
+              "dayNum": 1,
+              "type": "Duurloop",
+              "distance": 3.5,
+              "desc": "3,5 km rustige duurloop.",
+              "completed": false,
+              "log": null
+            },
+            {
+              "dayNum": 2,
+              "type": "Techniek",
+              "distance": 4,
+              "desc": "4 km rustige duurloop met aan het einde 4 versnellingen van 100 meter (rustig opbouwen naar sprint).",
+              "completed": false,
+              "log": null
+            },
+            {
+              "dayNum": 3,
+              "type": "Duurloop",
+              "distance": 5,
+              "desc": "5 km rustige duurloop.",
+              "completed": false,
+              "log": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "phase": 2,
+      "phaseName": "Fase 2: De Afstand Uitbouwen",
+      "phaseDesc": "We gaan nu de wekelijkse lange duurloop serieus verlengen, terwijl de intervallen intensiever worden.",
+      "weeks": [
+        {
+          "weekNum": 5,
+          "days": [
+            {
+              "dayNum": 1,
+              "type": "Duurloop",
+              "distance": 5,
+              "desc": "5 km rustige duurloop.",
+              "completed": false,
+              "log": null
+            },
+            {
+              "dayNum": 2,
+              "type": "Interval",
+              "distance": 4.5,
+              "desc": "10 min. warmdraaien + 4x (3 min. snel op 7:15 - 7:30 tempo / 2 min. wandelen) + 5 min. uitwandelen.",
+              "completed": false,
+              "log": null
+            },
+            {
+              "dayNum": 3,
+              "type": "Duurloop",
+              "distance": 7,
+              "desc": "7 km rustige duurloop.",
+              "completed": false,
+              "log": null
+            }
+          ]
+        },
+        {
+          "weekNum": 6,
+          "days": [
+            {
+              "dayNum": 1,
+              "type": "Duurloop",
+              "distance": 5,
+              "desc": "5 km rustige duurloop.",
+              "completed": false,
+              "log": null
+            },
+            {
+              "dayNum": 2,
+              "type": "Tempo",
+              "distance": 5.5,
+              "desc": "10 min. warmdraaien + 2x (2 km op 7:30 tempo met 4 min. wandelen tussendoor) + 5 min. uitwandelen.",
+              "completed": false,
+              "log": null
+            },
+            {
+              "dayNum": 3,
+              "type": "Duurloop",
+              "distance": 8,
+              "desc": "8 km rustige duurloop (wandel gerust tussendoor als het zwaar wordt!).",
+              "completed": false,
+              "log": null
+            }
+          ]
+        },
+        {
+          "weekNum": 7,
+          "days": [
+            {
+              "dayNum": 1,
+              "type": "Duurloop",
+              "distance": 5.5,
+              "desc": "5,5 km rustige duurloop.",
+              "completed": false,
+              "log": null
+            },
+            {
+              "dayNum": 2,
+              "type": "Interval",
+              "distance": 5,
+              "desc": "10 min. warmdraaien + 5x (3 min. snel op 7:15 tempo / 2 min. wandelen) + 5 min. uitwandelen.",
+              "completed": false,
+              "log": null
+            },
+            {
+              "dayNum": 3,
+              "type": "Duurloop",
+              "distance": 8.5,
+              "desc": "8,5 km rustige duurloop.",
+              "completed": false,
+              "log": null
+            }
+          ]
+        },
+        {
+          "weekNum": 8,
+          "isRecovery": true,
+          "days": [
+            {
+              "dayNum": 1,
+              "type": "Duurloop",
+              "distance": 4,
+              "desc": "4 km rustige duurloop.",
+              "completed": false,
+              "log": null
+            },
+            {
+              "dayNum": 2,
+              "type": "Duurloop",
+              "distance": 4.5,
+              "desc": "4,5 km rustige duurloop.",
+              "completed": false,
+              "log": null
+            },
+            {
+              "dayNum": 3,
+              "type": "Duurloop",
+              "distance": 6,
+              "desc": "6 km rustige duurloop.",
+              "completed": false,
+              "log": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "phase": 3,
+      "phaseName": "Fase 3: De Finale richting de 10 km",
+      "phaseDesc": "De laatste loodjes. Je bent nu sterk genoeg om de magische grens van 10 km te doorbreken.",
+      "weeks": [
+        {
+          "weekNum": 9,
+          "days": [
+            {
+              "dayNum": 1,
+              "type": "Duurloop",
+              "distance": 5,
+              "desc": "5 km rustige duurloop.",
+              "completed": false,
+              "log": null
+            },
+            {
+              "dayNum": 2,
+              "type": "Tempo",
+              "distance": 6,
+              "desc": "10 min. warmdraaien + 4 km aaneengesloten lopen op 7:30 tempo + 5 min. uitwandelen.",
+              "completed": false,
+              "log": null
+            },
+            {
+              "dayNum": 3,
+              "type": "Duurloop",
+              "distance": 9,
+              "desc": "9 km rustige duurloop.",
+              "completed": false,
+              "log": null
+            }
+          ]
+        },
+        {
+          "weekNum": 10,
+          "days": [
+            {
+              "dayNum": 1,
+              "type": "Duurloop",
+              "distance": 6,
+              "desc": "6 km rustige duurloop.",
+              "completed": false,
+              "log": null
+            },
+            {
+              "dayNum": 2,
+              "type": "Interval",
+              "distance": 6,
+              "desc": "10 min. warmdraaien + 4x (4 min. snel op 7:15 tempo / 2 min. wandelen) + 5 min. uitwandelen.",
+              "completed": false,
+              "log": null
+            },
+            {
+              "dayNum": 3,
+              "type": "Duurloop",
+              "distance": 10,
+              "desc": "10 KM RUSTIGE DUURLOOP! Focus op het uitlopen, tijd is ondergeschikt.",
+              "completed": false,
+              "log": null
+            }
+          ]
+        },
+        {
+          "weekNum": 11,
+          "days": [
+            {
+              "dayNum": 1,
+              "type": "Duurloop",
+              "distance": 5,
+              "desc": "5 km rustige duurloop.",
+              "completed": false,
+              "log": null
+            },
+            {
+              "dayNum": 2,
+              "type": "Tempo",
+              "distance": 7,
+              "desc": "10 min. warmdraaien + 5 km aaneengesloten lopen op je doeltempo (7:30 tempo) + 5 min. uitwandelen.",
+              "completed": false,
+              "log": null
+            },
+            {
+              "dayNum": 3,
+              "type": "Duurloop",
+              "distance": 7,
+              "desc": "7 km rustige duurloop.",
+              "completed": false,
+              "log": null
+            }
+          ]
+        },
+        {
+          "weekNum": 12,
+          "isTarget": true,
+          "days": [
+            {
+              "dayNum": 1,
+              "type": "Duurloop",
+              "distance": 4,
+              "desc": "4 km heel rustige duurloop.",
+              "completed": false,
+              "log": null
+            },
+            {
+              "dayNum": 2,
+              "type": "Techniek",
+              "distance": 3,
+              "desc": "3 km rustig hardlopen met 3 korte, ontspannen versnellingen.",
+              "completed": false,
+              "log": null
+            },
+            {
+              "dayNum": 3,
+              "type": "DE DOELDAG",
+              "distance": 10,
+              "desc": "10 kilometer op 7:30 min/km! Start rustig en geniet van je prestatie!",
+              "completed": false,
+              "log": null
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "lastUpdated": "2026-05-23T16:42:24.474Z"
+}
