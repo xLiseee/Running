@@ -53,9 +53,7 @@
             </div>
             
             <div class="flex items-center space-x-3">
-                <button onclick="resetData()" class="text-xs px-3 py-1.5 rounded-lg border border-slate-700 hover:border-rose-500/50 hover:text-rose-400 transition-colors duration-200 flex items-center gap-1.5">
-                    <i class="fa-solid fa-arrow-rotate-left"></i> Reset Voortgang
-                </button>
+                <!-- Reset knop is verwijderd zodat voortgang niet per ongeluk gewist kan worden -->
             </div>
         </div>
     </header>
@@ -427,55 +425,60 @@
             };
         }
 
-        // Load state from API
+        // Load state from API with local fallback
         async function loadState() {
+            const savedDate = localStorage.getItem('running_tracker_target_date');
+            if (savedDate) {
+                document.getElementById('target-date-picker').value = savedDate;
+            }
+
             try {
                 const response = await fetch('/api/program');
                 const data = await response.json();
                 state.program = data.program || [];
-                
-                // If program is empty, initialize with default programData
+
                 if (state.program.length === 0) {
                     state.program = JSON.parse(JSON.stringify(programData));
                     await saveState();
                 }
-                
-                const savedDate = localStorage.getItem('running_tracker_target_date');
-                if (savedDate) {
-                    document.getElementById('target-date-picker').value = savedDate;
-                }
-                
-                // Initialize WebSocket after loading
+
                 initWebSocket();
             } catch(e) {
                 console.error("Fout bij laden van gegevens van server.", e);
-                // Fallback: use default program
-                state.program = JSON.parse(JSON.stringify(programData));
+                const saved = localStorage.getItem('running_tracker_state_v1');
+                if (saved) {
+                    try {
+                        state.program = JSON.parse(saved);
+                    } catch (err) {
+                        console.error('Fout bij ontleden van lokale state.', err);
+                        state.program = JSON.parse(JSON.stringify(programData));
+                    }
+                } else {
+                    state.program = JSON.parse(JSON.stringify(programData));
+                }
                 initWebSocket();
             }
         }
 
-        // Save state to API
+        // Save state to API and local fallback
         async function saveState() {
+            const payload = { program: state.program };
+
             try {
-                await fetch('/api/program', {
+                const response = await fetch('/api/program', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ program: state.program })
+                    body: JSON.stringify(payload)
                 });
-            } catch(e) {
-                console.error("Fout bij opslaan naar server.", e);
-            }
-        }
 
-        // Reset all data
-        async function resetData() {
-            if (confirm("Weet je zeker dat je alle voortgang en logs wilt wissen? Dit kan niet ongedaan worden gemaakt.")) {
-                state.program = JSON.parse(JSON.stringify(programData));
-                await saveState();
-                renderAll();
-                triggerConfetti(0.2);
+                if (!response.ok) {
+                    throw new Error('Server responded with ' + response.status);
+                }
+            } catch(e) {
+                console.error("Fout bij opslaan naar server, gebruik lokale fallback.", e);
             }
+
+            localStorage.setItem('running_tracker_state_v1', JSON.stringify(state.program));
         }
 
         // Compute overall statistics
@@ -811,6 +814,25 @@
             
             const timeVal = document.getElementById('log-actual-time').value.trim();
             const notesVal = document.getElementById('log-notes').value.trim();
+            
+            const phase = state.program.find(p => p.phase === phaseNum);
+            const week = phase?.weeks.find(w => w.weekNum === weekNum);
+            const day = week?.days.find(d => d.dayNum === dayNum);
+
+            if (!day) {
+                console.error('Dag niet gevonden voor loggen');
+                return;
+            }
+
+            day.completed = true;
+            day.log = {
+                time: timeVal || 'Voltooid',
+                feeling: state.selectedFeeling,
+                notes: notesVal
+            };
+
+            renderAll();
+            await saveState();
 
             try {
                 const response = await fetch(`/api/program/log/${phaseNum}/${weekNum}/${dayNum}`, {
@@ -822,11 +844,13 @@
                         notes: notesVal
                     })
                 });
-                
+
                 if (response.ok) {
                     closeLogModal();
                     triggerConfetti();
                     // renderAll() will be called by WebSocket update
+                } else {
+                    console.error('Server reageerde niet goed op log-save:', response.statusText);
                 }
             } catch(e) {
                 console.error('Fout bij saveRunLog:', e);
@@ -835,6 +859,29 @@
 
         // Simple check/uncheck quick toggle
         async function toggleDay(phaseNum, weekNum, dayNum) {
+            const phase = state.program.find(p => p.phase === phaseNum);
+            const week = phase?.weeks.find(w => w.weekNum === weekNum);
+            const day = week?.days.find(d => d.dayNum === dayNum);
+
+            if (!day) {
+                console.error('Dag niet gevonden voor toggle');
+                return;
+            }
+
+            // Optimistic local update zodat de UI direct reageert
+            day.completed = !day.completed;
+            if (!day.completed) {
+                day.log = null;
+            } else {
+                day.log = {
+                    time: 'Voltooid',
+                    feeling: 'good',
+                    notes: ''
+                };
+            }
+            renderAll();
+            await saveState();
+
             try {
                 const response = await fetch(`/api/program/toggle/${phaseNum}/${weekNum}/${dayNum}`, {
                     method: 'PATCH',
@@ -843,10 +890,11 @@
                 
                 if (response.ok) {
                     const result = await response.json();
-                    if (result.data.completed) {
+                    if (result.data?.completed) {
                         triggerConfetti(0.15);
                     }
-                    // renderAll() will be called by WebSocket update
+                } else {
+                    console.error('Toggle request failed:', response.statusText);
                 }
             } catch(e) {
                 console.error('Fout bij toggleDay:', e);
