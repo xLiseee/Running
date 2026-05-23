@@ -39,7 +39,7 @@ export async function getProgramData() {
     const { data, error, status } = await supabase
         .from('running_program')
         .select('program')
-        .eq('id', 'singleton')
+        .eq('id', 1)
         .single();
 
     if (error && status !== 406) {
@@ -60,7 +60,7 @@ export async function saveProgramData(program) {
 
     const { error } = await supabase
         .from('running_program')
-        .upsert({ id: 'singleton', program });
+        .upsert({ id: 1, program });
 
     if (error) {
         throw error;
