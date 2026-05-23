@@ -804,7 +804,6 @@
             };
 
             renderAll();
-            await saveState();
 
             try {
                 const response = await fetch(`/api/program/log/${phaseNum}/${weekNum}/${dayNum}`, {
@@ -822,9 +821,11 @@
                     triggerConfetti();
                     await refreshState();
                 } else {
+                    localStorage.setItem('running_tracker_state_v1', JSON.stringify(state.program));
                     console.error('Server reageerde niet goed op log-save:', response.statusText);
                 }
             } catch(e) {
+                localStorage.setItem('running_tracker_state_v1', JSON.stringify(state.program));
                 console.error('Fout bij saveRunLog:', e);
             }
         }
@@ -840,7 +841,6 @@
                 return;
             }
 
-            const previousState = { completed: day.completed, log: day.log };
             // Optimistic local update zodat de UI direct reageert
             day.completed = !day.completed;
             if (!day.completed) {
@@ -853,7 +853,6 @@
                 };
             }
             renderAll();
-            await saveState();
 
             try {
                 const response = await fetch(`/api/program/toggle/${phaseNum}/${weekNum}/${dayNum}`, {
@@ -868,15 +867,11 @@
                     }
                     await refreshState();
                 } else {
-                    day.completed = previousState.completed;
-                    day.log = previousState.log;
-                    renderAll();
+                    localStorage.setItem('running_tracker_state_v1', JSON.stringify(state.program));
                     console.error('Toggle request failed:', response.statusText);
                 }
             } catch(e) {
-                day.completed = previousState.completed;
-                day.log = previousState.log;
-                renderAll();
+                localStorage.setItem('running_tracker_state_v1', JSON.stringify(state.program));
                 console.error('Fout bij toggleDay:', e);
             }
         }

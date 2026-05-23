@@ -30,6 +30,9 @@ function saveLocalData(program) {
 
 export async function getProgramData() {
     if (!supabase) {
+        if (process.env.VERCEL) {
+            throw new Error('SUPABASE_URL and SUPABASE_KEY must be configured on Vercel.');
+        }
         return loadLocalData();
     }
 
@@ -48,6 +51,9 @@ export async function getProgramData() {
 
 export async function saveProgramData(program) {
     if (!supabase) {
+        if (process.env.VERCEL) {
+            throw new Error('SUPABASE_URL and SUPABASE_KEY must be configured on Vercel.');
+        }
         saveLocalData(program);
         return;
     }
