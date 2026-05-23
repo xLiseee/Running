@@ -5,7 +5,7 @@
   "main": "api/program/index.js",
   "type": "module",
   "scripts": {
-    "start": "vercel dev",
+    "start": "vercel dev"
   },
   "keywords": [
     "running",
