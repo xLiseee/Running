@@ -1,0 +1,6 @@
+
+> running-tracker-server@1.0.0 start
+> node server.js
+
+🏃 Running Tracker server listening on http://localhost:3000
+New client connected

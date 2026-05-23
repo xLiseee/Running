@@ -15,7 +15,11 @@ const wss = new WebSocketServer({ server });
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(__dirname));
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
+app.use('/manifest.json', express.static(path.join(__dirname, 'manifest.json')));
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
 
 // File-based database
 const dbFile = path.join(__dirname, 'data.json');
