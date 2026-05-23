@@ -2,11 +2,10 @@
   "name": "running-tracker-server",
   "version": "1.0.0",
   "description": "Shared running tracker server with real-time synchronization",
-  "main": "server.js",
+  "main": "api/program/index.js",
   "type": "module",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js"
+    "start": "vercel dev",
   },
   "keywords": [
     "running",
@@ -16,10 +15,7 @@
   "author": "Lise",
   "license": "ISC",
   "dependencies": {
-    "@supabase/supabase-js": "^2.34.0",
-    "cors": "^2.8.5",
-    "express": "^4.18.2",
-    "ws": "^8.14.2"
+    "@supabase/supabase-js": "^2.34.0"
   },
   "devDependencies": {}
 }
