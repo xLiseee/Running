@@ -469,10 +469,10 @@
         }
 
         // Reset all data
-        function resetData() {
+        async function resetData() {
             if (confirm("Weet je zeker dat je alle voortgang en logs wilt wissen? Dit kan niet ongedaan worden gemaakt.")) {
                 state.program = JSON.parse(JSON.stringify(programData));
-                saveState();
+                await saveState();
                 renderAll();
                 triggerConfetti(0.2);
             }
@@ -874,8 +874,8 @@
         }
 
         // App entry point
-        window.onload = function() {
-            loadState();
+        window.onload = async function() {
+            await loadState();
             updateCountdown();
             calculatePace();
             renderAll();
