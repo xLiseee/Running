@@ -393,37 +393,7 @@
             selectedFeeling: 'good'
         };
 
-        // WebSocket for real-time updates
-        let ws = null;
-        function initWebSocket() {
-            const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-            ws = new WebSocket(`${protocol}//${window.location.host}`);
-            
-            ws.onopen = () => {
-                console.log('WebSocket verbonden');
-            };
-            
-            ws.onmessage = (event) => {
-                try {
-                    const msg = JSON.parse(event.data);
-                    if (msg.type === 'update' || msg.type === 'initial') {
-                        state.program = msg.data.program;
-                        renderAll();
-                    }
-                } catch(e) {
-                    console.error('WebSocket message error:', e);
-                }
-            };
-            
-            ws.onerror = (error) => {
-                console.error('WebSocket error:', error);
-            };
-            
-            ws.onclose = () => {
-                console.log('WebSocket verbroken, opnieuw verbinden in 3 seconden...');
-                setTimeout(initWebSocket, 3000);
-            };
-        }
+        const POLL_INTERVAL_MS = 8000;
 
         // Load state from API with local fallback
         async function loadState() {
@@ -441,8 +411,6 @@
                     state.program = JSON.parse(JSON.stringify(programData));
                     await saveState();
                 }
-
-                initWebSocket();
             } catch(e) {
                 console.error("Fout bij laden van gegevens van server.", e);
                 const saved = localStorage.getItem('running_tracker_state_v1');
@@ -456,7 +424,6 @@
                 } else {
                     state.program = JSON.parse(JSON.stringify(programData));
                 }
-                initWebSocket();
             }
         }
 
@@ -479,6 +446,11 @@
             }
 
             localStorage.setItem('running_tracker_state_v1', JSON.stringify(state.program));
+        }
+
+        async function refreshState() {
+            await loadState();
+            renderAll();
         }
 
         // Compute overall statistics
@@ -848,7 +820,7 @@
                 if (response.ok) {
                     closeLogModal();
                     triggerConfetti();
-                    // renderAll() will be called by WebSocket update
+                    await refreshState();
                 } else {
                     console.error('Server reageerde niet goed op log-save:', response.statusText);
                 }
@@ -868,6 +840,7 @@
                 return;
             }
 
+            const previousState = { completed: day.completed, log: day.log };
             // Optimistic local update zodat de UI direct reageert
             day.completed = !day.completed;
             if (!day.completed) {
@@ -893,10 +866,17 @@
                     if (result.data?.completed) {
                         triggerConfetti(0.15);
                     }
+                    await refreshState();
                 } else {
+                    day.completed = previousState.completed;
+                    day.log = previousState.log;
+                    renderAll();
                     console.error('Toggle request failed:', response.statusText);
                 }
             } catch(e) {
+                day.completed = previousState.completed;
+                day.log = previousState.log;
+                renderAll();
                 console.error('Fout bij toggleDay:', e);
             }
         }
@@ -927,6 +907,9 @@
             updateCountdown();
             calculatePace();
             renderAll();
+
+            setInterval(refreshState, POLL_INTERVAL_MS);
+            window.addEventListener('focus', refreshState);
         }
     </script>
 </body>
