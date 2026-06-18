@@ -3,13 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lise's Hardloop Tracker</title>
-    <link rel="icon" type="image/x-icon" href="/assets/icon.png">
-    <link rel="apple-touch-icon" href="/assets/icon.png">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Hardloop Tracker">
-    <link rel="manifest" href="/manifest.json">
+    <title>Lise's hardloopschema 🏃‍♂️</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts Inter -->
@@ -22,7 +16,6 @@
         body {
             font-family: 'Inter', sans-serif;
         }
-        /* Custom scrollbar for better styling */
         ::-webkit-scrollbar {
             width: 6px;
         }
@@ -45,15 +38,17 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3">
                 <div class="p-2 bg-gradient-to-tr from-emerald-500 to-teal-400 rounded-xl shadow-lg shadow-emerald-500/20 text-slate-950">
-                    <i class="fa-solid fa-person-running text-xl"></i>
+                    <i class="fa-solid fa-heart-pulse text-xl"></i>
                 </div>
                 <div>
-                    <h1 class="text-lg font-bold tracking-tight text-white">Lise's Hardloop Tracker 🏃‍♀️</h1>
+                    <h1 class="text-lg font-bold tracking-tight text-white">Lise's hardloopschema 🏃‍♂️</h1>
                 </div>
             </div>
             
             <div class="flex items-center space-x-3">
-                <!-- Reset knop is verwijderd zodat voortgang niet per ongeluk gewist kan worden -->
+                <button onclick="resetData()" class="text-xs px-3 py-1.5 rounded-lg border border-slate-700 hover:border-rose-500/50 hover:text-rose-400 transition-colors duration-200 flex items-center gap-1.5">
+                    <i class="fa-solid fa-arrow-rotate-left"></i> Reset Voortgang
+                </button>
             </div>
         </div>
     </header>
@@ -80,10 +75,10 @@
                             <span id="progress-percentage" class="absolute text-2xl font-black text-white">0%</span>
                         </div>
                         <div>
-                            <div class="text-3xl font-extrabold text-white" id="completed-stats">0 / 36</div>
+                            <div class="text-3xl font-extrabold text-white" id="completed-stats">0 / 48</div>
                             <div class="text-sm text-slate-400">Trainingen voltooid</div>
                             <div class="text-xs text-emerald-400 font-medium mt-1 flex items-center gap-1" id="phase-badge">
-                                <i class="fa-solid fa-circle-check"></i> Lekker bezig!
+                                <i class="fa-solid fa-circle-check"></i> Lekker rustig beginnen!
                             </div>
                         </div>
                     </div>
@@ -104,7 +99,7 @@
             <!-- COUNTDOWN CARD -->
             <div class="lg:col-span-4 bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between shadow-xl">
                 <div>
-                    <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-2">Countdown tot de Doeldag</h2>
+                    <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-2">Countdown tot de Doeldag 📅</h2>
                     <div class="flex items-center space-x-3 mb-4">
                         <i class="fa-regular fa-calendar-check text-emerald-400 text-lg"></i>
                         <input type="date" id="target-date-picker" class="bg-slate-800 text-sm font-semibold rounded-lg px-2 py-1 text-white border border-slate-700 focus:outline-none focus:border-emerald-500" value="2026-10-18" onchange="updateCountdown()">
@@ -136,59 +131,86 @@
                         <span class="font-bold text-emerald-400">7:30 min/km (8.0 km/u)</span>
                     </div>
                     <div class="flex justify-between text-xs text-slate-400">
-                        <span>Huidig Tempo:</span>
-                        <span class="font-semibold text-slate-300">9:36 min/km (6.25 km/u)</span>
+                        <span>Zone 2 Richtlijn:</span>
+                        <span class="font-semibold text-slate-300">Tempo loslaten / Praattempo</span>
                     </div>
                 </div>
             </div>
 
-            <!-- PACE CALCULATOR -->
-            <div class="lg:col-span-4 bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between shadow-xl">
+            <!-- ZONE 2 ADVICE CARD -->
+            <div class="lg:col-span-4 bg-gradient-to-br from-emerald-950/20 to-slate-900 border border-emerald-500/20 rounded-2xl p-6 flex flex-col justify-between shadow-xl">
                 <div>
-                    <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-3">Tempo Rekenhulp ⏱️</h2>
-                    <p class="text-xs text-slate-400 mb-4">Bereken direct je tempo na een training.</p>
-                    
-                    <div class="grid grid-cols-2 gap-3 mb-3">
-                        <div>
-                            <label class="block text-[10px] uppercase text-slate-400 mb-1">Afstand (km)</label>
-                            <input type="number" step="0.01" id="calc-dist" placeholder="bijv. 5" class="w-full bg-slate-950 text-white border border-slate-800 rounded-lg px-3 py-1.5 text-sm focus:border-emerald-500 focus:outline-none" value="5">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] uppercase text-slate-400 mb-1">Tijd (minuten)</label>
-                            <input type="number" step="1" id="calc-time" placeholder="bijv. 48" class="w-full bg-slate-950 text-white border border-slate-800 rounded-lg px-3 py-1.5 text-sm focus:border-emerald-500 focus:outline-none" value="48">
-                        </div>
+                    <div class="flex items-center space-x-2 mb-2">
+                        <span class="flex h-2.5 w-2.5 relative">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                        </span>
+                        <h2 class="text-sm font-bold text-emerald-400 uppercase tracking-wider">Zone 4 Voorkomen 💚</h2>
                     </div>
-                    
-                    <button onclick="calculatePace()" class="w-full bg-emerald-600 hover:bg-emerald-500 transition-colors py-1.5 text-xs text-slate-950 font-bold rounded-lg uppercase tracking-wider">Bereken Tempo</button>
+                    <p class="text-xs text-slate-300 leading-relaxed mb-3">
+                        Als je constant in Zone 4 loopt, train je te zwaar. Door trager te lopen bouwt je hart juist de <strong>aerobe motor</strong> op die je nodig hebt voor 10 km!
+                    </p>
+                    <ul class="text-[11px] text-slate-400 space-y-1.5 list-disc pl-4">
+                        <li><strong>Praattest:</strong> Je moet makkelijk hele zinnen kunnen praten.</li>
+                        <li><strong>Run-Walk:</strong> Wandel direct als je hartslag te hoog piekt.</li>
+                        <li><strong>Negeer tempo:</strong> In Fase 1 is 10:00 min/km óók perfect!</li>
+                    </ul>
                 </div>
-
-                <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between">
-                    <div>
-                        <span class="text-[10px] text-slate-500 block uppercase">Berekend Tempo:</span>
-                        <span id="calc-result" class="text-base font-extrabold text-white">9:36 min/km</span>
-                    </div>
-                    <div class="text-right">
-                        <span class="text-[10px] text-slate-500 block uppercase">Vergelijking doel (7:30):</span>
-                        <span id="calc-comparison" class="text-xs font-semibold text-amber-400">+2:06 min/km</span>
-                    </div>
+                <div class="mt-4 pt-3 border-t border-slate-800/80">
+                    <button onclick="toggleZone2Guide()" class="text-xs text-emerald-400 hover:text-emerald-300 font-bold flex items-center gap-1.5">
+                        <i class="fa-solid fa-circle-info"></i> Lees Zone 2 Gids
+                    </button>
                 </div>
             </div>
 
         </div>
 
+        <!-- ZONE 2 POPUP INFORMATION -->
+        <div id="zone2-info" class="mb-8 p-6 bg-slate-900 border border-slate-800 rounded-2xl hidden">
+            <div class="flex justify-between items-start mb-4">
+                <h3 class="font-bold text-lg text-white flex items-center gap-2">
+                    <i class="fa-solid fa-graduation-cap text-emerald-400"></i> Zone 2 Training: Jouw Geheime Wapen
+                </h3>
+                <button onclick="toggleZone2Guide()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm text-slate-300">
+                <div class="bg-slate-950 p-4 rounded-xl border border-slate-850">
+                    <h4 class="font-semibold text-emerald-400 mb-2">1. Waarom Zone 2?</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        In Zone 2 maakt je lichaam meer mitochondriën (energiefabriekjes) en haarvaten aan in je spieren. Hierdoor stroomt er meer zuurstof naar je spieren en kan je hart op een lagere hartslag dezelfde prestatie leveren.
+                    </p>
+                </div>
+                <div class="bg-slate-950 p-4 rounded-xl border border-slate-850">
+                    <h4 class="font-semibold text-emerald-400 mb-2">2. De Run-Walk Methode</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        In Fase 1 gebruiken we 'Run-Walk'. Loop bijvoorbeeld 2 of 3 minuten heel rustig en wandel direct 1 minuut. Hierdoor zakt je hartslag telkens terug, waardoor je veel langer kunt trainen zonder vermoeid te raken.
+                    </p>
+                </div>
+                <div class="bg-slate-950 p-4 rounded-xl border border-slate-850">
+                    <h4 class="font-semibold text-emerald-400 mb-2">3. Tempo is niet belangrijk (Nu)</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Snelheid is een resultaat van conditie. Als je aerobe motor sterk genoeg is, zul je merken dat je in september/oktober automatisch veel makkelijker 7:30 min/km loopt zonder dat je hartslag explodeert!
+                    </p>
+                </div>
+            </div>
+        </div>
+
         <!-- FILTER TABS FOR PHASES -->
         <div class="flex space-x-2 mb-6 overflow-x-auto pb-2">
             <button onclick="switchTab('all')" class="phase-tab px-4 py-2 bg-slate-900 text-xs font-semibold rounded-lg hover:bg-slate-800 transition text-white border border-slate-800 active-tab" id="tab-all">
-                Volledig Schema
+                Volledig Schema (16 Weken)
             </button>
             <button onclick="switchTab('phase1')" class="phase-tab px-4 py-2 bg-slate-900 text-xs font-semibold rounded-lg hover:bg-slate-800 transition text-slate-400 border border-slate-800" id="tab-phase1">
-                Fase 1: Basis (W1-4)
+                Fase 1: Aerobe Base (W1-4)
             </button>
             <button onclick="switchTab('phase2')" class="phase-tab px-4 py-2 bg-slate-900 text-xs font-semibold rounded-lg hover:bg-slate-800 transition text-slate-400 border border-slate-800" id="tab-phase2">
-                Fase 2: Afstand (W5-8)
+                Fase 2: Conditie (W5-8)
             </button>
             <button onclick="switchTab('phase3')" class="phase-tab px-4 py-2 bg-slate-900 text-xs font-semibold rounded-lg hover:bg-slate-800 transition text-slate-400 border border-slate-800" id="tab-phase3">
-                Fase 3: Finale (W9-12)
+                Fase 3: Afstand (W9-12)
+            </button>
+            <button onclick="switchTab('phase4')" class="phase-tab px-4 py-2 bg-slate-900 text-xs font-semibold rounded-lg hover:bg-slate-800 transition text-slate-400 border border-slate-800" id="tab-phase4">
+                Fase 4: Finale & Doel (W13-16)
             </button>
         </div>
 
@@ -214,36 +236,42 @@
                 
                 <p class="text-xs text-slate-400" id="modal-desc"></p>
                 
-                <div>
-                    <label class="block text-xs text-slate-400 mb-1">Werkelijke tijd (min:sec of enkel minuten)</label>
-                    <input type="text" id="log-actual-time" placeholder="bijv. 38:15 of 45" class="w-full bg-slate-950 text-white border border-slate-800 rounded-lg px-3 py-2 text-sm focus:border-emerald-500 focus:outline-none">
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Gelopen tijd (min:sec)</label>
+                        <input type="text" id="log-actual-time" placeholder="bijv. 38:15 of 45" class="w-full bg-slate-950 text-white border border-slate-800 rounded-lg px-3 py-2 text-sm focus:border-emerald-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Gem. Hartslag (BPM)</label>
+                        <input type="number" id="log-avg-hr" placeholder="bijv. 145" class="w-full bg-slate-950 text-white border border-slate-800 rounded-lg px-3 py-2 text-sm focus:border-emerald-500 focus:outline-none">
+                    </div>
                 </div>
                 
                 <div>
-                    <label class="block text-xs text-slate-400 mb-1">Hoe voelde je je tijdens de run?</label>
+                    <label class="block text-xs text-slate-400 mb-1">Hoe voelde je hartslag/conditie?</label>
                     <div class="grid grid-cols-4 gap-2">
                         <button onclick="selectFeeling('super')" class="feeling-btn border border-slate-800 bg-slate-950 hover:bg-slate-800/50 p-2.5 rounded-xl transition flex flex-col items-center gap-1" id="feel-super">
-                            <span class="text-xl">🤩</span>
-                            <span class="text-[10px] text-slate-400 font-semibold">Super</span>
+                            <span class="text-xl">🟢</span>
+                            <span class="text-[10px] text-slate-400 font-semibold">Zone 2 (Lekker)</span>
                         </button>
                         <button onclick="selectFeeling('good')" class="feeling-btn border border-slate-800 bg-slate-950 hover:bg-slate-800/50 p-2.5 rounded-xl transition flex flex-col items-center gap-1" id="feel-good">
-                            <span class="text-xl">🙂</span>
-                            <span class="text-[10px] text-slate-400 font-semibold">Goed</span>
+                            <span class="text-xl">🟡</span>
+                            <span class="text-[10px] text-slate-400 font-semibold">Zone 3 (Oké)</span>
                         </button>
                         <button onclick="selectFeeling('tired')" class="feeling-btn border border-slate-800 bg-slate-950 hover:bg-slate-800/50 p-2.5 rounded-xl transition flex flex-col items-center gap-1" id="feel-tired">
-                            <span class="text-xl">🥵</span>
-                            <span class="text-[10px] text-slate-400 font-semibold">Zwaar</span>
+                            <span class="text-xl">🔴</span>
+                            <span class="text-[10px] text-slate-400 font-semibold">Zone 4 (Zwaar)</span>
                         </button>
                         <button onclick="selectFeeling('pain')" class="feeling-btn border border-slate-800 bg-slate-950 hover:bg-slate-800/50 p-2.5 rounded-xl transition flex flex-col items-center gap-1" id="feel-pain">
                             <span class="text-xl">🤕</span>
-                            <span class="text-[10px] text-slate-400 font-semibold">Pijn</span>
+                            <span class="text-[10px] text-slate-400 font-semibold">Pijn/Blessure</span>
                         </button>
                     </div>
                 </div>
 
                 <div>
                     <label class="block text-xs text-slate-400 mb-1">Notitie / Notities (optioneel)</label>
-                    <textarea id="log-notes" rows="2" placeholder="Wat ging goed? Wat kan beter?" class="w-full bg-slate-950 text-white border border-slate-800 rounded-lg px-3 py-2 text-sm focus:border-emerald-500 focus:outline-none resize-none"></textarea>
+                    <textarea id="log-notes" rows="2" placeholder="Was je hartslag rustig? Hoe ging het wandelen?" class="w-full bg-slate-950 text-white border border-slate-800 rounded-lg px-3 py-2 text-sm focus:border-emerald-500 focus:outline-none resize-none"></textarea>
                 </div>
             </div>
             
@@ -256,131 +284,172 @@
 
     <!-- FOOTER -->
     <footer class="border-t border-slate-900 bg-slate-950 py-6 text-center text-xs text-slate-500">
-        <p>© 2026 Lise's Hardloop Tracker</p>
+        <p>© 2026 Mijn 16-Weken 10K Plan • Train verstandig, loop langzamer om sneller te worden! 💚</p>
     </footer>
 
     <script>
-        // 12 Weeks Running Program Data structure
+        // 16 Weeks Running Program Data structure (Focus on Base building and Zone 2)
         const programData = [
-            // PHASE 1
+            // PHASE 1: AEROBE BASIS & ZONE 2
             {
                 phase: 1,
-                phaseName: "Fase 1: Basisconditie & Snelheidsprikkels",
-                phaseDesc: "In deze eerste fase wennen je spieren en gewrichten aan de kortere, snellere tempoblokken.",
+                phaseName: "Fase 1: Aerobe Basis & Hartslagsensor Wennen",
+                phaseDesc: "We focussen 100% op lage intensiteit. Gebruik de Run-Walk methode om je hartslag stabiel laag te houden.",
                 weeks: [
                     {
                         weekNum: 1,
                         days: [
-                            { dayNum: 1, type: "Duurloop", distance: 4, desc: "4 km rustige duurloop op praattempo.", completed: false, log: null },
-                            { dayNum: 2, type: "Interval", distance: 3.5, desc: "10 min. warmdraaien + 5x (2 min. snel op 7:30 tempo / 2 min. wandelen) + 5 min. uitwandelen.", completed: false, log: null },
-                            { dayNum: 3, type: "Duurloop", distance: 5, desc: "5 km rustige duurloop (je huidige basis).", completed: false, log: null }
+                            { dayNum: 1, type: "Duurloop", distance: 3.0, desc: "3 km super rustige duurloop. Wandel direct als je ademhaling te zwaar wordt.", completed: false, log: null },
+                            { dayNum: 2, type: "Run-Walk", distance: 3.5, desc: "10 min. wandelen warm-up + 6x (2 min. heel rustig joggen / 1 min. rustig wandelen) + 5 min. uitwandelen.", completed: false, log: null },
+                            { dayNum: 3, type: "Duurloop", distance: 4.0, desc: "4 km op praattempo. Negeer je snelheid volledig, focus op ontspanning.", completed: false, log: null }
                         ]
                     },
                     {
                         weekNum: 2,
                         days: [
-                            { dayNum: 1, type: "Duurloop", distance: 4.5, desc: "4,5 km rustige duurloop.", completed: false, log: null },
-                            { dayNum: 2, type: "Interval", distance: 4, desc: "10 min. warmdraaien + 6x (2 min. snel op 7:30 tempo / 2 min. wandelen) + 5 min. uitwandelen.", completed: false, log: null },
-                            { dayNum: 3, type: "Duurloop", distance: 5.5, desc: "5,5 km rustige duurloop.", completed: false, log: null }
+                            { dayNum: 1, type: "Duurloop", distance: 3.5, desc: "3,5 km rustig joggen. Probeer constant door je neus te ademen als test.", completed: false, log: null },
+                            { dayNum: 2, type: "Run-Walk", distance: 4.0, desc: "10 min. warmdraaien + 8x (2 min. heel rustig joggen / 1 min. wandelen) + 5 min. uitwandelen.", completed: false, log: null },
+                            { dayNum: 3, type: "Duurloop", distance: 4.5, desc: "4,5 km rustige duurloop op je allertraagste tempo.", completed: false, log: null }
                         ]
                     },
                     {
                         weekNum: 3,
                         days: [
-                            { dayNum: 1, type: "Duurloop", distance: 4.5, desc: "4,5 km rustige duurloop.", completed: false, log: null },
-                            { dayNum: 2, type: "Tempo", distance: 4.5, desc: "10 min. warmdraaien + 3x (1 km op 7:30 tempo met telkens 3 min. wandelen tussendoor) + 5 min. uitwandelen.", completed: false, log: null },
-                            { dayNum: 3, type: "Duurloop", distance: 6, desc: "6 km rustige duurloop.", completed: false, log: null }
+                            { dayNum: 1, type: "Duurloop", distance: 3.5, desc: "3,5 km heel rustig herstelloopje.", completed: false, log: null },
+                            { dayNum: 2, type: "Run-Walk", distance: 4.5, desc: "10 min. warmdraaien + 5x (3 min. heel rustig joggen / 1,5 min. wandelen) + 5 min. uitwandelen.", completed: false, log: null },
+                            { dayNum: 3, type: "Duurloop", distance: 5.0, desc: "5 km comfortabele duurloop. Wandelen mag altijd!", completed: false, log: null }
                         ]
                     },
                     {
                         weekNum: 4,
                         isRecovery: true,
                         days: [
-                            { dayNum: 1, type: "Duurloop", distance: 3.5, desc: "3,5 km rustige duurloop.", completed: false, log: null },
-                            { dayNum: 2, type: "Techniek", distance: 4, desc: "4 km rustige duurloop met aan het einde 4 versnellingen van 100 meter (rustig opbouwen naar sprint).", completed: false, log: null },
-                            { dayNum: 3, type: "Duurloop", distance: 5, desc: "5 km rustige duurloop.", completed: false, log: null }
+                            { dayNum: 1, type: "Duurloop", distance: 3.0, desc: "3 km rustig joggen om de benen los te houden.", completed: false, log: null },
+                            { dayNum: 2, type: "Run-Walk", distance: 3.5, desc: "25 minuten ontspannen wisselduurloop (wandelen zodra je hartslag oploopt).", completed: false, log: null },
+                            { dayNum: 3, type: "Duurloop", distance: 4.0, desc: "4 km rustige duurloop. Geniet van de lage intensiteit.", completed: false, log: null }
                         ]
                     }
                 ]
             },
-            // PHASE 2
+            // PHASE 2: UITBOUWEN AEROBE CONDITIE
             {
                 phase: 2,
-                phaseName: "Fase 2: De Afstand Uitbouwen",
-                phaseDesc: "We gaan nu de wekelijkse lange duurloop serieus verlengen, terwijl de intervallen intensiever worden.",
+                phaseName: "Fase 2: Conditie & Zachte Tempoprikkels",
+                phaseDesc: "Je hart raakt gewend aan het lopen. We bouwen de wandelpauzes af en voegen lichte versnellingen toe.",
                 weeks: [
                     {
                         weekNum: 5,
                         days: [
-                            { dayNum: 1, type: "Duurloop", distance: 5, desc: "5 km rustige duurloop.", completed: false, log: null },
-                            { dayNum: 2, type: "Interval", distance: 4.5, desc: "10 min. warmdraaien + 4x (3 min. snel op 7:15 - 7:30 tempo / 2 min. wandelen) + 5 min. uitwandelen.", completed: false, log: null },
-                            { dayNum: 3, type: "Duurloop", distance: 7, desc: "7 km rustige duurloop.", completed: false, log: null }
+                            { dayNum: 1, type: "Duurloop", distance: 4.0, desc: "4 km rustige duurloop. Probeer de hele rit aaneengesloten te joggen.", completed: false, log: null },
+                            { dayNum: 2, type: "Run-Walk", distance: 4.5, desc: "10 min. warmdraaien + 5x (4 min. rustig joggen / 1 min. wandelen) + 5 min. uitwandelen.", completed: false, log: null },
+                            { dayNum: 3, type: "Duurloop", distance: 5.5, desc: "5,5 km rustige duurloop op comfortabel tempo.", completed: false, log: null }
                         ]
                     },
                     {
                         weekNum: 6,
                         days: [
-                            { dayNum: 1, type: "Duurloop", distance: 5, desc: "5 km rustige duurloop.", completed: false, log: null },
-                            { dayNum: 2, type: "Tempo", distance: 5.5, desc: "10 min. warmdraaien + 2x (2 km op 7:30 tempo met 4 min. wandelen tussendoor) + 5 min. uitwandelen.", completed: false, log: null },
-                            { dayNum: 3, type: "Duurloop", distance: 8, desc: "8 km rustige duurloop (wandel gerust tussendoor als het zwaar wordt!).", completed: false, log: null }
+                            { dayNum: 1, type: "Duurloop", distance: 4.5, desc: "4,5 km rustige duurloop.", completed: false, log: null },
+                            { dayNum: 2, type: "Tempo", distance: 4.5, desc: "10 min. warmdraaien + 3x (1 km op stabiel tempo rond 8:00-8:15 min/km met 3 min. wandelen tussendoor) + 5 min. uitwandelen.", completed: false, log: null },
+                            { dayNum: 3, type: "Duurloop", distance: 6.0, desc: "6 km rustige duurloop. Rustig en beheerst.", completed: false, log: null }
                         ]
                     },
                     {
                         weekNum: 7,
                         days: [
-                            { dayNum: 1, type: "Duurloop", distance: 5.5, desc: "5,5 km rustige duurloop.", completed: false, log: null },
-                            { dayNum: 2, type: "Interval", distance: 5, desc: "10 min. warmdraaien + 5x (3 min. snel op 7:15 tempo / 2 min. wandelen) + 5 min. uitwandelen.", completed: false, log: null },
-                            { dayNum: 3, type: "Duurloop", distance: 8.5, desc: "8,5 km rustige duurloop.", completed: false, log: null }
+                            { dayNum: 1, type: "Duurloop", distance: 4.5, desc: "4,5 km rustige duurloop.", completed: false, log: null },
+                            { dayNum: 2, type: "Interval", distance: 5.0, desc: "10 min. warmdraaien + 6x (2 min. iets vlotter (~7:45 tempo) / 2 min. wandelen) + 5 min. uitwandelen.", completed: false, log: null },
+                            { dayNum: 3, type: "Duurloop", distance: 6.5, desc: "6,5 km rustige lange duurloop.", completed: false, log: null }
                         ]
                     },
                     {
                         weekNum: 8,
                         isRecovery: true,
                         days: [
-                            { dayNum: 1, type: "Duurloop", distance: 4, desc: "4 km rustige duurloop.", completed: false, log: null },
-                            { dayNum: 2, type: "Duurloop", distance: 4.5, desc: "4,5 km rustige duurloop.", completed: false, log: null },
-                            { dayNum: 3, type: "Duurloop", distance: 6, desc: "6 km rustige duurloop.", completed: false, log: null }
+                            { dayNum: 1, type: "Duurloop", distance: 3.5, desc: "3,5 km heel rustig herstellen.", completed: false, log: null },
+                            { dayNum: 2, type: "Techniek", distance: 4.0, desc: "4 km rustig joggen met aan het einde 3 versnellingen van 100m om de benen wakker te schudden.", completed: false, log: null },
+                            { dayNum: 3, type: "Duurloop", distance: 5.0, desc: "5 km ontspannen herstelduurloop.", completed: false, log: null }
                         ]
                     }
                 ]
             },
-            // PHASE 3
+            // PHASE 3: AFSTAND & DOELTEMPO GEWENNING
             {
                 phase: 3,
-                phaseName: "Fase 3: De Finale richting de 10 km",
-                phaseDesc: "De laatste loodjes. Je bent nu sterk genoeg om de magische grens van 10 km te doorbreken.",
+                phaseName: "Fase 3: De Afstand Uitbouwen",
+                phaseDesc: "We verlengen de zondagse duurloop en trainen specifieker op je streeftempo van 7:30 min/km.",
                 weeks: [
                     {
                         weekNum: 9,
                         days: [
-                            { dayNum: 1, type: "Duurloop", distance: 5, desc: "5 km rustige duurloop.", completed: false, log: null },
-                            { dayNum: 2, type: "Tempo", distance: 6, desc: "10 min. warmdraaien + 4 km aaneengesloten lopen op 7:30 tempo + 5 min. uitwandelen.", completed: false, log: null },
-                            { dayNum: 3, type: "Duurloop", distance: 9, desc: "9 km rustige duurloop.", completed: false, log: null }
+                            { dayNum: 1, type: "Duurloop", distance: 5.0, desc: "5 km rustige duurloop.", completed: false, log: null },
+                            { dayNum: 2, type: "Interval", distance: 5.0, desc: "10 min. warmdraaien + 5x (3 min. actief op 7:30 tempo / 2 min. wandelen) + 5 min. uitwandelen.", completed: false, log: null },
+                            { dayNum: 3, type: "Duurloop", distance: 7.5, desc: "7,5 km rustige duurloop. Drink goed van tevoren!", completed: false, log: null }
                         ]
                     },
                     {
                         weekNum: 10,
                         days: [
-                            { dayNum: 1, type: "Duurloop", distance: 6, desc: "6 km rustige duurloop.", completed: false, log: null },
-                            { dayNum: 2, type: "Interval", distance: 6, desc: "10 min. warmdraaien + 4x (4 min. snel op 7:15 tempo / 2 min. wandelen) + 5 min. uitwandelen.", completed: false, log: null },
-                            { dayNum: 3, type: "Duurloop", distance: 10, desc: "10 KM RUSTIGE DUURLOOP! Focus op het uitlopen, tijd is ondergeschikt.", completed: false, log: null }
+                            { dayNum: 1, type: "Duurloop", distance: 5.0, desc: "5 km rustige duurloop.", completed: false, log: null },
+                            { dayNum: 2, type: "Tempo", distance: 5.5, desc: "10 min. warmdraaien + 2x (2 km op doeltempo 7:30 met 4 min. wandelen tussendoor) + 5 min. uit.", completed: false, log: null },
+                            { dayNum: 3, type: "Duurloop", distance: 8.0, desc: "8 km rustige duurloop. Bouw je mentale focus op.", completed: false, log: null }
                         ]
                     },
                     {
                         weekNum: 11,
                         days: [
-                            { dayNum: 1, type: "Duurloop", distance: 5, desc: "5 km rustige duurloop.", completed: false, log: null },
-                            { dayNum: 2, type: "Tempo", distance: 7, desc: "10 min. warmdraaien + 5 km aaneengesloten lopen op je doeltempo (7:30 tempo) + 5 min. uitwandelen.", completed: false, log: null },
-                            { dayNum: 3, type: "Duurloop", distance: 7, desc: "7 km rustige duurloop.", completed: false, log: null }
+                            { dayNum: 1, type: "Duurloop", distance: 5.5, desc: "5,5 km rustige duurloop.", completed: false, log: null },
+                            { dayNum: 2, type: "Interval", distance: 6.0, desc: "10 min. warmdraaien + 6x (3 min. vlot op 7:15 - 7:30 tempo / 2 min. wandelen) + 5 min. uitwandelen.", completed: false, log: null },
+                            { dayNum: 3, type: "Duurloop", distance: 8.5, desc: "8,5 km rustige duurloop. Geniet van de herfstwind!", completed: false, log: null }
                         ]
                     },
                     {
                         weekNum: 12,
+                        isRecovery: true,
+                        days: [
+                            { dayNum: 1, type: "Duurloop", distance: 4.0, desc: "4 km rustige duurloop.", completed: false, log: null },
+                            { dayNum: 2, type: "Duurloop", distance: 4.5, desc: "4,5 km heel rustige herstelrun.", completed: false, log: null },
+                            { dayNum: 3, type: "Duurloop", distance: 6.0, desc: "6 km ontspannen duurloop.", completed: false, log: null }
+                        ]
+                    }
+                ]
+            },
+            // PHASE 4: FINALE RICHTING DE 10 KM
+            {
+                phase: 4,
+                phaseName: "Fase 4: De Finale Richting 18 Oktober",
+                phaseDesc: "De laatste stap. Je bent nu sterk genoeg om de magische grens van 10 km te doorbreken op je doeltempo.",
+                weeks: [
+                    {
+                        weekNum: 13,
+                        days: [
+                            { dayNum: 1, type: "Duurloop", distance: 5.5, desc: "5,5 km rustige duurloop.", completed: false, log: null },
+                            { dayNum: 2, type: "Tempo", distance: 6.0, desc: "10 min. warmdraaien + 4 km aaneengesloten lopen op 7:30 tempo + 5 min. uitwandelen.", completed: false, log: null },
+                            { dayNum: 3, type: "Duurloop", distance: 9.0, desc: "9 km rustige duurloop. Bijna daar!", completed: false, log: null }
+                        ]
+                    },
+                    {
+                        weekNum: 14,
+                        days: [
+                            { dayNum: 1, type: "Duurloop", distance: 6.0, desc: "6 km rustige duurloop.", completed: false, log: null },
+                            { dayNum: 2, type: "Interval", distance: 6.0, desc: "10 min. warmdraaien + 4x (4 min. snel op 7:15 tempo / 2 min. wandelen) + 5 min. uitwandelen.", completed: false, log: null },
+                            { dayNum: 3, type: "Duurloop", distance: 10.0, desc: "10 KM REPETITIE! Focus puur op de afstand uitlopen, tempo is ondergeschikt.", completed: false, log: null }
+                        ]
+                    },
+                    {
+                        weekNum: 15,
+                        days: [
+                            { dayNum: 1, type: "Duurloop", distance: 5.0, desc: "5 km heel rustige duurloop.", completed: false, log: null },
+                            { dayNum: 2, type: "Tempo", distance: 7.0, desc: "10 min. warmdraaien + 5 km aaneengesloten op doeltempo (7:30 tempo) + 5 min. uitwandelen.", completed: false, log: null },
+                            { dayNum: 3, type: "Duurloop", distance: 7.0, desc: "7 km ontspannen duurloop. We bouwen de vermoeidheid af (tapering).", completed: false, log: null }
+                        ]
+                    },
+                    {
+                        weekNum: 16,
                         isTarget: true,
                         days: [
-                            { dayNum: 1, type: "Duurloop", distance: 4, desc: "4 km heel rustige duurloop.", completed: false, log: null },
-                            { dayNum: 2, type: "Techniek", distance: 3, desc: "3 km rustig hardlopen met 3 korte, ontspannen versnellingen.", completed: false, log: null },
-                            { dayNum: 3, type: "DE DOELDAG", distance: 10, desc: "10 kilometer op 7:30 min/km! Start rustig en geniet van je prestatie!", completed: false, log: null }
+                            { dayNum: 1, type: "Duurloop", distance: 4.0, desc: "4 km heel rustige duurloop.", completed: false, log: null },
+                            { dayNum: 2, type: "Techniek", distance: 3.0, desc: "3 km ontspannen joggen met 3 korte versnellingen om de benen alert te houden.", completed: false, log: null },
+                            { dayNum: 3, type: "DE DOELDAG", distance: 10.0, desc: "10 KILOMETER! De ultieme test. Start heel rustig en geniet van je opgebouwde conditie!", completed: false, log: null }
                         ]
                     }
                 ]
@@ -393,64 +462,39 @@
             selectedFeeling: 'good'
         };
 
-        const POLL_INTERVAL_MS = 8000;
-
-        // Load state from API with local fallback
-        async function loadState() {
-            const savedDate = localStorage.getItem('running_tracker_target_date');
+        // Load state from LocalStorage on mount
+        function loadState() {
+            const saved = localStorage.getItem('running_tracker_state_v2');
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    state.program = parsed;
+                } catch(e) {
+                    console.error("Fout bij laden. Gebruik defaults.", e);
+                }
+            }
+            
+            const savedDate = localStorage.getItem('running_tracker_target_date_v2');
             if (savedDate) {
                 document.getElementById('target-date-picker').value = savedDate;
-            }
-
-            try {
-                const response = await fetch('/api/program');
-                const data = await response.json();
-                state.program = data.program || [];
-
-                if (state.program.length === 0) {
-                    state.program = JSON.parse(JSON.stringify(programData));
-                    await saveState();
-                }
-            } catch(e) {
-                console.error("Fout bij laden van gegevens van server.", e);
-                const saved = localStorage.getItem('running_tracker_state_v1');
-                if (saved) {
-                    try {
-                        state.program = JSON.parse(saved);
-                    } catch (err) {
-                        console.error('Fout bij ontleden van lokale state.', err);
-                        state.program = JSON.parse(JSON.stringify(programData));
-                    }
-                } else {
-                    state.program = JSON.parse(JSON.stringify(programData));
-                }
+            } else {
+                document.getElementById('target-date-picker').value = "2026-10-18";
             }
         }
 
-        // Save state to API and local fallback
-        async function saveState() {
-            const payload = { program: state.program };
-
-            try {
-                const response = await fetch('/api/program', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                if (!response.ok) {
-                    throw new Error('Server responded with ' + response.status);
-                }
-            } catch(e) {
-                console.error("Fout bij opslaan naar server, gebruik lokale fallback.", e);
-            }
-
-            localStorage.setItem('running_tracker_state_v1', JSON.stringify(state.program));
+        // Save state to LocalStorage
+        function saveState() {
+            localStorage.setItem('running_tracker_state_v2', JSON.stringify(state.program));
         }
 
-        async function refreshState() {
-            await loadState();
-            renderAll();
+        // Reset all data
+        function resetData() {
+            if (confirm("Weet je zeker dat je alle voortgang en logs wilt wissen? Dit kan niet ongedaan worden gemaakt.")) {
+                state.program = JSON.parse(JSON.stringify(programData));
+                saveState();
+                renderAll();
+                triggerConfetti(0.2);
+            }
         }
 
         // Compute overall statistics
@@ -458,7 +502,7 @@
             let totalDays = 0;
             let completedDays = 0;
             let totalEstDistance = 0;
-            let currentPhase = "Fase 1: Basis";
+            let currentPhase = "Fase 1: Aerobe Base";
 
             state.program.forEach(p => {
                 p.weeks.forEach(w => {
@@ -518,17 +562,20 @@
             // Phrase update based on completion
             const badge = document.getElementById('phase-badge');
             if (stats.percent === 100) {
-                badge.innerHTML = `<i class="fa-solid fa-trophy text-amber-400"></i> Ultieme prestatie behaald!`;
+                badge.innerHTML = `<i class="fa-solid fa-trophy text-amber-400"></i> Gefeliciteerd! Oktober is van jou!`;
                 badge.className = "text-xs text-amber-400 font-bold mt-1 flex items-center gap-1";
             } else if (stats.percent > 75) {
-                badge.innerHTML = `<i class="fa-solid fa-fire text-orange-400"></i> De eindstreep is in zicht!`;
+                badge.innerHTML = `<i class="fa-solid fa-fire text-orange-400"></i> Superconditie opgebouwd!`;
                 badge.className = "text-xs text-orange-400 font-bold mt-1 flex items-center gap-1";
             } else if (stats.percent > 40) {
-                badge.innerHTML = `<i class="fa-solid fa-bolt text-teal-400"></i> Halverwege, geweldige conditie!`;
+                badge.innerHTML = `<i class="fa-solid fa-bolt text-teal-400"></i> Conditiestijging is nu merkbaar!`;
                 badge.className = "text-xs text-teal-400 font-bold mt-1 flex items-center gap-1";
-            } else {
-                badge.innerHTML = `<i class="fa-solid fa-person-running text-emerald-400"></i> Stap voor stap sterker!`;
+            } else if (stats.percent > 15) {
+                badge.innerHTML = `<i class="fa-solid fa-heart text-emerald-400"></i> Je hart wordt sterker!`;
                 badge.className = "text-xs text-emerald-400 font-semibold mt-1 flex items-center gap-1";
+            } else {
+                badge.innerHTML = `<i class="fa-solid fa-person-running text-slate-400"></i> Rustige opbouw, stabiele basis!`;
+                badge.className = "text-xs text-slate-400 font-semibold mt-1 flex items-center gap-1";
             }
         }
 
@@ -536,7 +583,7 @@
         let countdownInterval;
         function updateCountdown() {
             const dateInput = document.getElementById('target-date-picker').value;
-            localStorage.setItem('running_tracker_target_date', dateInput);
+            localStorage.setItem('running_tracker_target_date_v2', dateInput);
 
             if (countdownInterval) clearInterval(countdownInterval);
 
@@ -568,42 +615,10 @@
             countdownInterval = setInterval(refreshTime, 1000);
         }
 
-        // Calculate Pace utility tool
-        function calculatePace() {
-            const dist = parseFloat(document.getElementById('calc-dist').value);
-            const time = parseFloat(document.getElementById('calc-time').value);
-
-            if (!dist || !time || dist <= 0 || time <= 0) {
-                document.getElementById('calc-result').innerText = "Ongeldige invoer";
-                return;
-            }
-
-            const totalSeconds = Math.round(time * 60);
-            const paceSecondsPerKm = totalSeconds / dist;
-            
-            const min = Math.floor(paceSecondsPerKm / 60);
-            const sec = Math.round(paceSecondsPerKm % 60);
-            
-            const formattedPace = `${min}:${sec < 10 ? '0' + sec : sec} min/km`;
-            document.getElementById('calc-result').innerText = formattedPace;
-
-            // Comparison
-            const targetPaceSec = (7 * 60) + 30; // 7:30 = 450 seconds
-            const diffSec = paceSecondsPerKm - targetPaceSec;
-            
-            const compEl = document.getElementById('calc-comparison');
-            if (diffSec <= 0) {
-                const absDiff = Math.abs(diffSec);
-                const dMin = Math.floor(absDiff / 60);
-                const dSec = Math.round(absDiff % 60);
-                compEl.innerText = `-${dMin}:${dSec < 10 ? '0' + dSec : dSec} min/km 🔥`;
-                compEl.className = "text-xs font-bold text-emerald-400";
-            } else {
-                const dMin = Math.floor(diffSec / 60);
-                const dSec = Math.round(diffSec % 60);
-                compEl.innerText = `+${dMin}:${dSec < 10 ? '0' + dSec : dSec} min/km`;
-                compEl.className = "text-xs font-semibold text-amber-400";
-            }
+        // Toggle Zone 2 guide
+        function toggleZone2Guide() {
+            const el = document.getElementById('zone2-info');
+            el.classList.toggle('hidden');
         }
 
         // Tab Filtering Handler
@@ -631,6 +646,7 @@
                 if (state.currentTab === 'phase1' && p.phase !== 1) return;
                 if (state.currentTab === 'phase2' && p.phase !== 2) return;
                 if (state.currentTab === 'phase3' && p.phase !== 3) return;
+                if (state.currentTab === 'phase4' && p.phase !== 4) return;
 
                 // Create Phase block
                 const phaseBlock = document.createElement('section');
@@ -649,7 +665,6 @@
                 const weeksGrid = document.getElementById(`phase-${p.phase}-weeks`);
 
                 p.weeks.forEach(w => {
-                    // Check if entire week is completed
                     const isWeekDone = w.days.every(d => d.completed);
                     
                     const weekCard = document.createElement('div');
@@ -670,24 +685,29 @@
                         let typeColor = 'bg-slate-800 text-slate-300';
                         if (d.type === 'Duurloop') typeColor = 'bg-emerald-950/40 text-emerald-400 border border-emerald-500/20';
                         if (d.type === 'Interval') typeColor = 'bg-rose-950/40 text-rose-400 border border-rose-500/20';
+                        if (d.type === 'Run-Walk') typeColor = 'bg-teal-950/40 text-teal-400 border border-teal-500/20';
                         if (d.type === 'Tempo') typeColor = 'bg-amber-950/40 text-amber-400 border border-amber-500/20';
                         if (d.type === 'Techniek' || d.type === 'DE DOELDAG') typeColor = 'bg-indigo-950/40 text-indigo-400 border border-indigo-500/20';
 
                         // Log preview if completed
                         let logHtml = '';
                         if (isDone && d.log) {
-                            let emoji = "🙂";
-                            if (d.log.feeling === 'super') emoji = "🤩";
-                            if (d.log.feeling === 'tired') emoji = "🥵";
-                            if (d.log.feeling === 'pain') emoji = "🤕";
+                            let statusDot = "🟢";
+                            let statusText = "Zone 2 (Ideaal)";
+                            if (d.log.feeling === 'good') { statusDot = "🟡"; statusText = "Zone 3 (Oké)"; }
+                            if (d.log.feeling === 'tired') { statusDot = "🔴"; statusText = "Zone 4 (Intens)"; }
+                            if (d.log.feeling === 'pain') { statusDot = "🤕"; statusText = "Pijn"; }
 
                             logHtml = `
-                                <div class="mt-2 bg-slate-950/80 rounded-lg p-2 text-[11px] border border-slate-850 flex items-center justify-between">
-                                    <div class="truncate">
-                                        <span class="text-slate-500">Log:</span> <span class="text-emerald-400 font-medium">${d.log.time}</span>
-                                        ${d.log.notes ? `<span class="text-slate-400 italic font-light ml-1">"${d.log.notes}"</span>` : ''}
+                                <div class="mt-2 bg-slate-950/80 rounded-lg p-2 text-[11px] border border-slate-850 flex flex-col gap-1">
+                                    <div class="flex items-center justify-between text-slate-400">
+                                        <div>
+                                            Tijd: <span class="text-white font-semibold">${d.log.time}</span>
+                                            ${d.log.hr ? `• HR: <span class="text-white font-semibold">${d.log.hr} BPM</span>` : ''}
+                                        </div>
+                                        <span class="text-[10px] px-1.5 py-0.2 bg-slate-900 rounded-full flex items-center gap-1">${statusDot} ${statusText}</span>
                                     </div>
-                                    <span class="text-sm shrink-0 pl-1">${emoji}</span>
+                                    ${d.log.notes ? `<div class="text-slate-400 italic text-[10px] border-t border-slate-800/80 pt-1 mt-0.5">"${d.log.notes}"</div>` : ''}
                                 </div>
                             `;
                         }
@@ -752,12 +772,14 @@
             // Set values if already existing
             if (day.log) {
                 document.getElementById('log-actual-time').value = day.log.time;
-                document.getElementById('log-notes').value = d.log.notes || '';
+                document.getElementById('log-avg-hr').value = day.log.hr || '';
+                document.getElementById('log-notes').value = day.log.notes || '';
                 selectFeeling(day.log.feeling || 'good');
             } else {
                 document.getElementById('log-actual-time').value = '';
+                document.getElementById('log-avg-hr').value = '';
                 document.getElementById('log-notes').value = '';
-                selectFeeling('good');
+                selectFeeling('super');
             }
 
             document.getElementById('log-modal').classList.remove('hidden');
@@ -780,100 +802,56 @@
         }
 
         // Save Log from modal
-        async function saveRunLog() {
+        function saveRunLog() {
             const [phaseNum, weekNum] = document.getElementById('modal-week').value.split('-').map(Number);
             const dayNum = parseInt(document.getElementById('modal-day').value);
             
             const timeVal = document.getElementById('log-actual-time').value.trim();
+            const hrVal = document.getElementById('log-avg-hr').value.trim();
             const notesVal = document.getElementById('log-notes').value.trim();
-            
+
             const phase = state.program.find(p => p.phase === phaseNum);
-            const week = phase?.weeks.find(w => w.weekNum === weekNum);
-            const day = week?.days.find(d => d.dayNum === dayNum);
+            const week = phase.weeks.find(w => w.weekNum === weekNum);
+            const day = week.days.find(d => d.dayNum === dayNum);
 
-            if (!day) {
-                console.error('Dag niet gevonden voor loggen');
-                return;
-            }
-
+            // Set completed & save details
             day.completed = true;
             day.log = {
                 time: timeVal || 'Voltooid',
+                hr: hrVal ? parseInt(hrVal) : null,
                 feeling: state.selectedFeeling,
                 notes: notesVal
             };
 
+            saveState();
+            closeLogModal();
             renderAll();
-
-            try {
-                const response = await fetch(`/api/program/log/${phaseNum}/${weekNum}/${dayNum}`, {
-                    method: 'PATCH',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        time: timeVal || 'Voltooid',
-                        feeling: state.selectedFeeling,
-                        notes: notesVal
-                    })
-                });
-
-                if (response.ok) {
-                    closeLogModal();
-                    triggerConfetti();
-                    await refreshState();
-                } else {
-                    localStorage.setItem('running_tracker_state_v1', JSON.stringify(state.program));
-                    console.error('Server reageerde niet goed op log-save:', response.statusText);
-                }
-            } catch(e) {
-                localStorage.setItem('running_tracker_state_v1', JSON.stringify(state.program));
-                console.error('Fout bij saveRunLog:', e);
-            }
+            
+            triggerConfetti();
         }
 
         // Simple check/uncheck quick toggle
-        async function toggleDay(phaseNum, weekNum, dayNum) {
+        function toggleDay(phaseNum, weekNum, dayNum) {
             const phase = state.program.find(p => p.phase === phaseNum);
-            const week = phase?.weeks.find(w => w.weekNum === weekNum);
-            const day = week?.days.find(d => d.dayNum === dayNum);
+            const week = phase.weeks.find(w => w.weekNum === weekNum);
+            const day = week.days.find(d => d.dayNum === dayNum);
 
-            if (!day) {
-                console.error('Dag niet gevonden voor toggle');
-                return;
-            }
-
-            // Optimistic local update zodat de UI direct reageert
             day.completed = !day.completed;
+            
             if (!day.completed) {
-                day.log = null;
+                day.log = null; // reset log if unchecked
             } else {
                 day.log = {
                     time: 'Voltooid',
-                    feeling: 'good',
+                    hr: null,
+                    feeling: 'super',
                     notes: ''
                 };
+                triggerConfetti(0.15);
             }
-            renderAll();
 
-            try {
-                const response = await fetch(`/api/program/toggle/${phaseNum}/${weekNum}/${dayNum}`, {
-                    method: 'PATCH',
-                    headers: { 'Content-Type': 'application/json' }
-                });
-                
-                if (response.ok) {
-                    const result = await response.json();
-                    if (result.data?.completed) {
-                        triggerConfetti(0.15);
-                    }
-                    await refreshState();
-                } else {
-                    localStorage.setItem('running_tracker_state_v1', JSON.stringify(state.program));
-                    console.error('Toggle request failed:', response.statusText);
-                }
-            } catch(e) {
-                localStorage.setItem('running_tracker_state_v1', JSON.stringify(state.program));
-                console.error('Fout bij toggleDay:', e);
-            }
+            saveState();
+            renderAll();
         }
 
         // Confetti fireworks helper
@@ -886,7 +864,7 @@
                     colors: ['#10b981', '#34d399', '#059669', '#ffffff']
                 });
             } catch(e) {
-                console.log("No confetti available.");
+                console.log("Geen confetti beschikbaar.");
             }
         }
 
@@ -897,14 +875,10 @@
         }
 
         // App entry point
-        window.onload = async function() {
-            await loadState();
+        window.onload = function() {
+            loadState();
             updateCountdown();
-            calculatePace();
             renderAll();
-
-            setInterval(refreshState, POLL_INTERVAL_MS);
-            window.addEventListener('focus', refreshState);
         }
     </script>
 </body>
